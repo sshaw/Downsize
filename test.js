@@ -43,6 +43,19 @@ describe("Word-wise truncation", function () {
             .should.equal("<p>this <!-- is a > test < test --> <strong>test</strong></p>");
     });
 
+    it("should ignore comment in markup, and single quotes in comments", function () {
+        // Only seems to be a problem when "'" is surrounded by word chars
+        downsize("<!-- it's not broken -->one two three", {words: 2})
+            .should.equal("<!-- it's not broken -->one two");
+    });
+
+
+    it("should ignore comment in markup, and double quotes in comments", function () {
+       // Like "'", only seems to be a problem when "'" is surrounded by word chars
+        downsize('<!-- it"s -->one two three', {words: 2})
+            .should.equal('<!-- it"s -->one two');
+    });
+
     it("should understand implicitly void tags, and not attempt to close them", function () {
         downsize("<p>test <img src=\"blah.jpg\"> <strong>stuffo</strong> some stuff</p>", {words: 2})
             .should.equal("<p>test <img src=\"blah.jpg\"> <strong>stuffo</strong></p>");

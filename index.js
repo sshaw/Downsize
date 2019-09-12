@@ -42,7 +42,7 @@ var XRegexp = require('xregexp').XRegExp;
         }
 
         options.keepContext     = !!options.contextualTags;
-        options.contextualTags  = 
+        options.contextualTags  =
             options.keepContext && Array.isArray(options.contextualTags) ?
                 options.contextualTags : [];
 
@@ -157,11 +157,10 @@ var XRegexp = require('xregexp').XRegExp;
                     if (parseState === PARSER_TAG_STRING) {
                         parseState = PARSER_TAG_COMMENCED;
 
-                    } else if (parseState === PARSER_TAG_STRING_SINGLE) {
+                    } else if (parseState === PARSER_TAG_STRING_SINGLE || parseState === PARSER_COMMENT) {
                         // if double quote is found in a single quote string,
                         // ignore it and let the string finish
                         break;
-
                     } else if (parseState !== PARSER_UNINITIALISED) {
                         parseState = PARSER_TAG_STRING;
                     }
@@ -172,11 +171,10 @@ var XRegexp = require('xregexp').XRegExp;
                     if (parseState === PARSER_TAG_STRING_SINGLE) {
                         parseState = PARSER_TAG_COMMENCED;
 
-                    } else if (parseState === PARSER_TAG_STRING) {
+                    } else if (parseState === PARSER_TAG_STRING || parseState === PARSER_COMMENT) {
                         // if single quote is found in a double quote string,
                         // ignore it and let the string finish
                         break;
-
                     } else if (parseState !== PARSER_UNINITIALISED) {
                         parseState = PARSER_TAG_STRING_SINGLE;
                     }
@@ -193,7 +191,6 @@ var XRegexp = require('xregexp').XRegExp;
 
                         // Closing tag. (Do we need to be more lenient/)
                         if (tagBuffer.match(/<\s*\//)) {
-
                             // We don't attempt to walk up the stack to close
                             // tags. If the text to be truncated contains
                             // malformed nesting, we just close what we're
