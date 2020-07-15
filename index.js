@@ -32,7 +32,7 @@ var XRegexp = require('xregexp').XRegExp;
 
         var options = inputOptions && typeof inputOptions === "object" ? inputOptions : {},
             wordChars = options.wordChars instanceof RegExp ?
-                options.wordChars : new XRegexp("[\\p{L}0-9\\-\\']", "i");
+                options.wordChars : new XRegexp("[\\p{L}0-9\\-\\'’]", "i");
 
         options.countingType =
             !isNaN(Number(options.words)) ? COUNT_WORDS : COUNT_CHARACTERS;
